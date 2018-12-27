@@ -4,12 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="view"
-            type="com.wajahatkarim3.mvvm.demo.screens.posts_list.PostsContract.View"/>
-        <variable
-            name="presenter"
-            type="com.wajahatkarim3.mvvm.demo.screens.posts_list.PostsContract.Actions"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

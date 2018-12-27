@@ -8,9 +8,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.net.HttpURLConnection
 
-class PostsRepository : PostsContract.Repository {
-
-    override fun fetchPostsFromServer(success: (postsList: List<PostModel>) -> Unit, failure: (message: String) -> Unit) {
+class PostsRepository
+{
+    fun fetchPostsFromServer(success: (postsList: List<PostModel>) -> Unit, failure: (message: String) -> Unit) {
         var call = NetController.createService(PostsApi::class.java).getPosts()
         call.enqueue(object : Callback<List<PostModel>> {
 
