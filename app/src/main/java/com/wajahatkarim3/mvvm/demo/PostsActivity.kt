@@ -14,6 +14,7 @@ import com.wajahatkarim3.mvvm.demo.databinding.PostItemLayoutBinding
 import com.wajahatkarim3.mvvm.demo.model.PostModel
 import com.wajahatkarim3.mvvm.demo.screens.posts_list.PostsContract
 import com.wajahatkarim3.mvvm.demo.screens.posts_list.PostsPresenter
+import com.wajahatkarim3.mvvm.demo.screens.posts_list.PostsRepository
 
 class PostsActivity : AppCompatActivity(), PostsContract.View {
 
@@ -25,7 +26,7 @@ class PostsActivity : AppCompatActivity(), PostsContract.View {
         super.onCreate(savedInstanceState)
         bi = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        presenter = PostsPresenter(this)
+        presenter = PostsPresenter(this, PostsRepository())
         bi.view = this
         bi.presenter = presenter
 

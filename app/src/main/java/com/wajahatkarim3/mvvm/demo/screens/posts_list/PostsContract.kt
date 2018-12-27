@@ -21,6 +21,6 @@ interface PostsContract {
 
     interface Repository
     {
-        fun fetchPostsFromServer() : List<PostModel>
+        fun fetchPostsFromServer(success: (postsList: List<PostModel>) -> Unit, failure: (message: String) -> Unit)
     }
 }

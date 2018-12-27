@@ -9,7 +9,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.net.HttpURLConnection.HTTP_OK
 
-class PostsPresenter(view: PostsContract.View) : BasePresenter<PostsContract.View>(view), PostsContract.Actions {
+class PostsPresenter(view: PostsContract.View, var repository: PostsRepository) : BasePresenter<PostsContract.View>(view), PostsContract.Actions {
     var postsList = ArrayList<PostModel>()
 
     override fun initScreen() {
@@ -19,39 +19,17 @@ class PostsPresenter(view: PostsContract.View) : BasePresenter<PostsContract.Vie
     override fun loadPostsList()
     {
         _view?.showLoading()
-        var call = NetController.createService(PostsApi::class.java).getPosts()
-        call.enqueue(object : Callback<List<PostModel>>{
-
-            override fun onResponse(call: Call<List<PostModel>>, response: Response<List<PostModel>>)
+        repository.fetchPostsFromServer(success = {
+            if (it.isEmpty())
+                _view?.showEmpty()
+            else
             {
-                if (response.code() == HTTP_OK)
-                {
-                    response.body()?.let {
-                        if (it.isEmpty())
-                            _view?.showEmpty()
-                        else
-                        {
-                            postsList.clear()
-                            postsList.addAll(it)
-                            _view?.showContent(it)
-                        }
-                        return
-                    }
-                    _view?.showFailure("Unknown Error Occurred!")
-                    return
-                }
-                else
-                {
-                    // Get the error from response
-                    _view?.showFailure("Any server error occurred!")
-                }
+                postsList.clear()
+                postsList.addAll(it)
+                _view?.showContent(it)
             }
-
-            override fun onFailure(call: Call<List<PostModel>>, t: Throwable) {
-                // Show other errors like network connectivity etc here
-                _view?.showFailure(t.localizedMessage)
-                t.printStackTrace()
-            }
+        }, failure = {
+            _view?.showFailure("Any server error occurred!")
         })
     }
 
